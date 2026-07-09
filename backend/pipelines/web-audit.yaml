@@ -1,0 +1,17 @@
+name: web-audit
+description: Scan a live web target for CVEs, misconfigs, and exposures using nuclei and nikto
+parallel: true
+steps:
+  - id: nuclei
+    adapter: nuclei
+    params:
+      url: "${REPO_URL}"
+
+  - id: nikto
+    adapter: nikto
+    params:
+      url: "${REPO_URL}"
+
+  - id: report
+    adapter: report-merger
+    depends_on: [nuclei, nikto]

@@ -1,0 +1,24 @@
+name: full-scan
+description: Full security scan — clone, then run all tools in parallel
+parallel: true
+steps:
+  - id: clone
+    adapter: git-clone
+    params:
+      url: "${REPO_URL}"
+
+  - id: gitleaks
+    adapter: gitleaks
+    depends_on: [clone]
+
+  - id: trufflehog
+    adapter: trufflehog
+    depends_on: [clone]
+
+  - id: semgrep
+    adapter: semgrep
+    depends_on: [clone]
+
+  - id: report
+    adapter: report-merger
+    depends_on: [gitleaks, trufflehog, semgrep]

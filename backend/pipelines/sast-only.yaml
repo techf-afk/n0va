@@ -1,0 +1,16 @@
+name: sast-only
+description: Static analysis only — clone then run semgrep
+parallel: false
+steps:
+  - id: clone
+    adapter: git-clone
+    params:
+      url: "${REPO_URL}"
+
+  - id: semgrep
+    adapter: semgrep
+    depends_on: [clone]
+
+  - id: report
+    adapter: report-merger
+    depends_on: [semgrep]

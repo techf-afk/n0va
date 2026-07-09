@@ -1,0 +1,15 @@
+{
+  "name": "tool-orchestrator",
+  "version": "1.0.0",
+  "description": "AI-powered tool orchestration platform",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && node --watch server.js",
+    "dev:frontend": "cd frontend && npm run dev"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

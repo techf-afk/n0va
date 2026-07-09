@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #201d1d;
+  --bg-secondary: #2a2626;
+  --bg-dark: #1a1717;
+  --text-primary: #fdfcfc;
+  --text-secondary: #a8a3a3;
+  --accent-blue: #007aff;
+  --accent-red: #ff3b30;
+  --accent-green: #34c759;
+  --accent-orange: #ff9500;
+  --border: #3a3535;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'JetBrains Mono', 'Berkeley Mono', ui-monospace, SFMono-Regular, monospace;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg);
+  color: var(--text-primary);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Terminal cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Selection */
+::selection {
+  background: rgba(0, 122, 255, 0.3);
+  color: var(--text-primary);
+}

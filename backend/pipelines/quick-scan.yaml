@@ -1,0 +1,20 @@
+name: quick-scan
+description: Quick secrets scan — clone then run both secret detectors in parallel
+parallel: true
+steps:
+  - id: clone
+    adapter: git-clone
+    params:
+      url: "${REPO_URL}"
+
+  - id: gitleaks
+    adapter: gitleaks
+    depends_on: [clone]
+
+  - id: trufflehog
+    adapter: trufflehog
+    depends_on: [clone]
+
+  - id: report
+    adapter: report-merger
+    depends_on: [gitleaks, trufflehog]

@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Build
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local data — never commit user scan results, audit logs, or agent state
+backend/backups/
+.opencode/
+AGENTS.md
+START.md
+
+# Local secrets/configs
+.env.*
+!.env.example
+.tool-orchestrator/
+
