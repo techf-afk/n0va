@@ -9,7 +9,10 @@ import { ToolScanner, KNOWN_TOOLS, riskLevel, riskWarning } from './lib/scanner.
 import { Orchestrator } from './lib/orchestrator.js';
 import { TargetAnalyzer } from './lib/target-analyzer.js';
 import { join } from 'path';
+import { fileURLToPath } from 'url';
 import os from 'os';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 import { toSarif } from './lib/sarif.js';
 import { proxyStatus } from './lib/proxy.js';
 import { sandbox } from './lib/container.js';
@@ -425,15 +428,24 @@ app.get('/api/stats', (req, res) => {
   });
 });
 
+// Serve the built frontend (frontend/dist) as a static SPA, if present.
+const FRONTEND_DIST = join(__dirname, '..', 'frontend', 'dist');
+if (existsSync(FRONTEND_DIST)) {
+  app.use(express.static(FRONTEND_DIST));
+  app.get(/^(?!\/api|\/health|\/ws).*/, (_req, res) => {
+    res.sendFile(join(FRONTEND_DIST, 'index.html'));
+  });
+}
+
 const server = app.listen(PORT, () => {
   const hasToken = !!process.env.GITHUB_TOKEN;
   const px = proxyStatus();
-  console.log(`\n Tool Orchestrator Backend`);
-  console.log(`   Server: http://localhost:${PORT}`);
-  console.log(`   Repos:  ${REPOS_DIR}`);
+  console.log(`\n n0va — Security Orchestrator`);
+  console.log(`   Dashboard: http://localhost:${PORT}`);
+  console.log(`   Repos:    ${REPOS_DIR}`);
   console.log(`   GitHub API: ${hasToken ? 'authenticated (5,000 req/hr)' : 'unauthenticated (60 req/hr) — set GITHUB_TOKEN for more'}`);
-  console.log(`   Egress: ${px.configured ? 'proxy ' + px.proxy : 'REAL IP (no proxy set)'}`);
-  console.log(`   9router: http://127.0.0.1:20128\n`);
+  console.log(`   Egress:   ${px.configured ? 'proxy ' + px.proxy : 'REAL IP (no proxy set)'}\n`);
+  console.log(`   Open http://localhost:${PORT} in your browser.\n`);
 });
 
 const wss = new WebSocketServer({ server });

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./n0va.png" alt="n0va" width="320" />
+</p>
+
 # n0va — Security Orchestrator
 
 A local-first security orchestrator that turns any target (GitHub repo, web app,
@@ -73,19 +77,28 @@ State lives under `~/.tool-orchestrator/` (repos, streams, backups, config) —
 ## Install
 
 ```bash
-npm run install:all      # installs backend + frontend deps
+npm install -g n0va      # installs the CLI globally
+# or run without installing:
+npx n0va
 ```
+
+Scanner CLIs you intend to use must be on your PATH, e.g.:
+
+```bash
+apt install gitleaks trufflehog semgrep nuclei nmap nikto whatweb wafw00f gobuster
+```
+
+Metasploit / mysql / redis / psql clients are optional (PoC cards flag
+missing tools).
 
 ## Run
 
 ```bash
-npm run dev              # backend :3001 + frontend :3000 (vite)
-# or
-bash scripts/start-backend.sh   # backend only
+n0va            # starts the orchestrator, opens the dashboard
 ```
 
-- **Frontend**: http://localhost:3000
-- **Backend**:  http://localhost:3001
+Then open **http://localhost:3001** in your browser. That's it — one
+command, no build step, no separate frontend process.
 
 ## Configuration
 

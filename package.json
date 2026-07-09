@@ -1,15 +1,62 @@
 {
-  "name": "tool-orchestrator",
+  "name": "n0va",
   "version": "1.0.0",
-  "description": "AI-powered tool orchestration platform",
+  "description": "Local-first security orchestrator: declarative YAML pipelines, parallel scanners, sandbox isolation, cross-tool dedupe, SARIF output. No AI or cloud required.",
   "type": "module",
-  "scripts": {
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "cd backend && node --watch server.js",
-    "dev:frontend": "cd frontend && npm run dev"
+  "bin": {
+    "n0va": "./bin/n0va.js"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "concurrently": "^8.2.2"
+  "files": [
+    "bin",
+    "n0va.png",
+    "backend/server.js",
+    "backend/lib",
+    "backend/adapters",
+    "backend/pipelines",
+    "backend/registry/db.js",
+    "backend/registry/schema.sql",
+    "backend/assets",
+    "frontend/dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node bin/n0va.js",
+    "dev": "node backend/server.js",
+    "build:frontend": "cd frontend && npm install && npm run build"
+  },
+  "keywords": [
+    "security",
+    "scanner",
+    "orchestrator",
+    "pipeline",
+    "recon",
+    "sast",
+    "sarif",
+    "nuclei",
+    "nmap",
+    "semgrep",
+    "pentest"
+  ],
+  "author": "techf-afk",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/techf-afk/n0va.git"
+  },
+  "homepage": "https://github.com/techf-afk/n0va#readme",
+  "bugs": {
+    "url": "https://github.com/techf-afk/n0va/issues"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.2.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "js-yaml": "^5.2.1",
+    "ws": "^8.16.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

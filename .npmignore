@@ -1,0 +1,18 @@
+# Local data — never publish user scan results, audit logs, or agent state
+backend/backups/
+*.db
+*.db-shm
+*.db-wal
+.opencode/
+AGENTS.md
+START.md
+.tool-orchestrator/
+backend/registry/tools.db
+
+# Source-only / dev artifacts
+frontend/src/
+frontend/node_modules/
+backend/node_modules/
+scripts/
+*.log
+.DS_Store
