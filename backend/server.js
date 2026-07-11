@@ -18,6 +18,8 @@ import { proxyStatus } from './lib/proxy.js';
 import { sandbox } from './lib/container.js';
 import { redactText } from './lib/redact.js';
 import { suggestFromTarget } from './lib/poc.js';
+import { log } from './lib/logger.js';
+import { killAllChildren } from './lib/process-tracker.js';
 
 const DATA_DIR = join(os.homedir(), '.tool-orchestrator');
 const LOCKFILE_PATH = join(DATA_DIR, 'PROTECTED');
@@ -446,6 +448,7 @@ const server = app.listen(PORT, () => {
   console.log(`   GitHub API: ${hasToken ? 'authenticated (5,000 req/hr)' : 'unauthenticated (60 req/hr) — set GITHUB_TOKEN for more'}`);
   console.log(`   Egress:   ${px.configured ? 'proxy ' + px.proxy : 'REAL IP (no proxy set)'}\n`);
   console.log(`   Open http://localhost:${PORT} in your browser.\n`);
+  log.info(`listening on :${PORT}`);
 });
 
 const wss = new WebSocketServer({ server });
@@ -465,8 +468,23 @@ const orchestrator = new Orchestrator(aiClient, registry, {
   containerized: process.env.CONTAINERIZED === 'true',
 });
 
+// Never let an unexpected async error take the whole server down.
+process.on('uncaughtException', (err) => {
+  log.error('uncaughtException:', err);
+});
+process.on('unhandledRejection', (err) => {
+  log.error('unhandledRejection:', err);
+});
+
 process.on('SIGTERM', () => {
-  console.log('SIGTERM received, closing gracefully');
+  log.info('SIGTERM received, closing gracefully');
+  killAllChildren('SIGTERM');
   registry.close();
-  server.close();
+  server.close(() => process.exit(0));
+});
+
+process.on('SIGINT', () => {
+  killAllChildren('SIGINT');
+  registry.close();
+  server.close(() => process.exit(0));
 });

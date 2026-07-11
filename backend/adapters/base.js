@@ -4,6 +4,7 @@ import os from 'os';
 import { spawn } from 'child_process';
 import { sandbox, isSandboxAvailable } from '../lib/container.js';
 import { redactFindings } from '../lib/redact.js';
+import { track } from '../lib/process-tracker.js';
 
 export class BaseAdapter {
   constructor(config = {}) {
@@ -157,7 +158,7 @@ export class BaseAdapter {
   runAsync(cmd, options = {}) {
     return new Promise((resolve, reject) => {
       const env = { ...process.env, PATH: `${this.binDir}:${process.env.PATH}` };
-      const proc = spawn(cmd, { env, shell: true, stdio: ['ignore', 'pipe', 'pipe'] });
+      const proc = track(spawn(cmd, { env, shell: true, stdio: ['ignore', 'pipe', 'pipe'] }));
 
       let stdout = '';
       let stderr = '';

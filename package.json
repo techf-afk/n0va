@@ -24,6 +24,7 @@
   "scripts": {
     "start": "node bin/n0va.js",
     "dev": "node backend/server.js",
+    "test": "node --test",
     "build:frontend": "cd frontend && npm install && npm run build"
   },
   "keywords": [

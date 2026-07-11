@@ -125,6 +125,24 @@ All paths resolve to `~/.tool-orchestrator/...` by default. Override with env:
 - `POST /api/console/run` — run a (sandboxed, redacted, audited) shell command
 - `GET  /api/audit` — tamper-evident audit log
 
+## Development (from source)
+
+```bash
+git clone https://github.com/techf-afk/n0va.git
+cd n0va
+npm install                 # backend deps
+cd frontend && npm install && npm run build && cd ..
+node bin/n0va.js           # serves API + built UI on :3001
+```
+
+Run the backend test suite:
+
+```bash
+npm test                   # node --test (no framework needed)
+```
+
+Use a `--verbose` flag (or `N0VA_VERBOSE=1`) for debug-level logs.
+
 ## Contributing
 
 PRs welcome. Keep the local-first, no-AI-required principle. Add scanners as

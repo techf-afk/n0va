@@ -40,3 +40,7 @@ START.md
 !.env.example
 .tool-orchestrator/
 
+# Legacy/duplicate root frontend (real app is in frontend/)
+/index.html
+/src/
+
